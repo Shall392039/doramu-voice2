@@ -11,7 +11,7 @@
   <div class="container">
     <header>
       <h1>VIVANT風 音声読み上げスタジオ</h1>
-      <p>テキストを入力して、声を自由にカスタマイズできます</p>
+      <p>テキストを入力して音声を再生できます</p>
     </header>
 
     <!-- 上部広告枠 -->
@@ -20,26 +20,6 @@
     </div>
 
     <main class="card">
-      <div class="controls-grid">
-        <div class="form-group">
-          <div class="range-header">
-            <label for="pitchRange" style="margin:0;">声の高さ (ピッチ)</label>
-            <span class="range-value" id="pitchVal">1.2</span>
-          </div>
-          <!-- 初期値を 1.2 に変更 -->
-          <input type="range" id="pitchRange" min="0.5" max="2.0" step="0.05" value="1.2" oninput="document.getElementById('pitchVal').innerText=this.value">
-        </div>
-
-        <div class="form-group">
-          <div class="range-header">
-            <label for="rateRange" style="margin:0;">話すスピード</label>
-            <span class="range-value" id="rateVal">1.15</span>
-          </div>
-          <!-- 初期値を 1.15 に変更 -->
-          <input type="range" id="rateRange" min="0.5" max="2.0" step="0.05" value="1.15" oninput="document.getElementById('rateVal').innerText=this.value">
-        </div>
-      </div>
-
       <div class="form-group">
         <label for="textInput">読み上げる文章</label>
         <textarea id="textInput" placeholder="ここに日本語の文章を入力してください..."></textarea>

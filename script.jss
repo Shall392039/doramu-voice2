@@ -1,30 +1,4 @@
 const synth = window.speechSynthesis;
-let selectedVoice = null;
-
-function setVoice() {
-  const voices = synth.getVoices();
-  
-  // 日本語音声のリストを取得
-  const jaVoices = voices.filter(voice => voice.lang.includes('ja') || voice.lang.includes('JA'));
-  
-  // 1. "Google" が含まれる日本語音声を最優先で検索
-  selectedVoice = jaVoices.find(voice => voice.name.includes('Google'));
-
-  // 2. なければ、最初に見つかった日本語音声を割り当て
-  if (!selectedVoice && jaVoices.length > 0) {
-    selectedVoice = jaVoices[0];
-  }
-
-  // 3. 日本語音声が見つからない場合のフォールバック（全体から検索）
-  if (!selectedVoice && voices.length > 0) {
-    selectedVoice = voices[0];
-  }
-}
-
-setVoice();
-if (synth.onvoiceschanged !== undefined) {
-  synth.onvoiceschanged = setVoice;
-}
 
 function speakText() {
   if (synth.speaking) {
@@ -39,15 +13,23 @@ function speakText() {
 
   const utterThis = new SpeechSynthesisUtterance(text);
   
-  // 自動選択した Google 日本語（または代替音声）をセット
-  if (selectedVoice) {
-    utterThis.voice = selectedVoice;
+  const voices = synth.getVoices();
+  const jaVoices = voices.filter(voice => voice.lang.includes('ja') || voice.lang.includes('JA'));
+  
+  let targetVoice = jaVoices.find(voice => voice.name.includes('Google'));
+  if (!targetVoice && jaVoices.length > 0) {
+    targetVoice = jaVoices[0];
+  }
+  
+  if (targetVoice) {
+    utterThis.voice = targetVoice;
   }
 
-  // 高さ（初期値: 1.2）とスピード（初期値: 1.15）を取得
-  utterThis.pitch = parseFloat(document.getElementById('pitchRange').value);
-  utterThis.rate = parseFloat(document.getElementById('rateRange').value);
+  // 声の高さとスピードを固定値で適用（変更不可）
+  utterThis.pitch = 1.2;
+  utterThis.rate = 1.15;
 
+  window.currentUtterance = utterThis;
   synth.speak(utterThis);
 }
 
@@ -56,3 +38,8 @@ function stopSpeech() {
     synth.cancel();
   }
 }
+
+if (synth.onvoiceschanged !== undefined) {
+  synth.onvoiceschanged = () => { synth.getVoices(); };
+}
+synth.getVoices();
