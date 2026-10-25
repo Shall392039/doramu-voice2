@@ -3,62 +3,275 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>マイボイス風 音声読み上げツール</title>
+  <title>マイボイス風 音声読み上げスタジオ</title>
   <style>
-    body { font-family: sans-serif; max-width: 800px; margin: 20px auto; padding: 0 15px; color: #333; line-height: 1.6; background: #f7f9fc; }
-    .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-    textarea { width: 100%; height: 120px; margin: 10px 0; padding: 12px; box-sizing: border-box; font-size: 16px; border: 1px solid #cbd5e1; border-radius: 6px; resize: vertical; }
-    .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 15px 0; }
-    .control-group label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 14px; }
-    .control-group select, .control-group input { width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; }
-    button { background: #2563eb; color: white; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: bold; width: 100%; transition: background 0.2s; }
-    button:hover { background: #1d4ed8; }
-    button.stop { background: #dc2626; margin-top: 10px; }
-    button.stop:hover { background: #b91c1c; }
-    .ad-space { background: #e2e8f0; border: 2px dashed #94a3b8; padding: 15px; text-align: center; margin: 20px 0; border-radius: 8px; color: #64748b; font-weight: bold; }
+    :root {
+      --primary-color: #4f46e5;
+      --primary-hover: #4338ca;
+      --bg-color: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --accent-stop: #ef4444;
+      --accent-stop-hover: #dc2626;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 20px 15px;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* 広告スペースのスタイリング */
+    .ad-container {
+      background-color: #f1f5f9;
+      border: 2px dashed #cbd5e1;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      color: #94a3b8;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin: 20px 0;
+      min-height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* メインカード */
+    .card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+      border: 1px solid var(--border-color);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    select, textarea {
+      width: 100%;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 1rem;
+      background-color: #fff;
+      color: var(--text-main);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+    }
+
+    textarea {
+      height: 130px;
+      resize: vertical;
+    }
+
+    /* パラメータコントロール */
+    .controls-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 480px) {
+      .controls-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .range-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .range-value {
+      background: #e0e7ff;
+      color: var(--primary-color);
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--primary-color);
+      cursor: pointer;
+    }
+
+    /* ボタンデザイン */
+    .button-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 14px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      background-color: var(--primary-color);
+      color: white;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background-color: #f1f5f9;
+      color: var(--accent-stop);
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-secondary:hover {
+      background-color: #fee2e2;
+    }
+
+    /* フッター説明エリア */
+    .info-section {
+      margin-top: 32px;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.6);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+    }
+
+    .info-section h2 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text-main);
+    }
+
+    .info-section p {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
   </style>
 </head>
 <body>
 
-  <h1>マイボイス風 音声読み上げツール</h1>
-  <p>テキストを入力して、パラメータを調整しながら自分の声に似せて遊べるウェブサイトです！</p>
+  <div class="container">
+    <header>
+      <h1>🎙️ 音声読み上げスタジオ</h1>
+      <p>テキストを入力し、声の高さやスピードを自由に調整できます</p>
+    </header>
 
-  <!-- 上部広告枠 -->
-  <div class="ad-space">
-    【広告スペース (Google AdSense等をここに配置)】
-  </div>
-
-  <div class="card">
-    <div class="control-group">
-      <label for="voiceSelect">音声の種類:</label>
-      <select id="voiceSelect"></select>
+    <!-- 広告枠 1 (上部) -->
+    <div class="ad-container">
+      【スポンサーリンク / 広告スペース】
     </div>
 
-    <div class="controls">
-      <div class="control-group">
-        <label for="pitchRange">声の高さ (ピッチ): <span id="pitchVal">1.0</span></label>
-        <input type="range" id="pitchRange" min="0.5" max="2.0" step="0.1" value="1.0" oninput="document.getElementById('pitchVal').innerText=this.value">
+    <main class="card">
+      <div class="form-group">
+        <label for="voiceSelect">話者（システム音声）を選択</label>
+        <select id="voiceSelect"></select>
       </div>
-      <div class="control-group">
-        <label for="rateRange">話すスピード: <span id="rateVal">1.0</span></label>
-        <input type="range" id="rateRange" min="0.5" max="2.0" step="0.1" value="1.0" oninput="document.getElementById('rateVal').innerText=this.value">
+
+      <div class="controls-grid">
+        <div class="form-group">
+          <div class="range-header">
+            <label for="pitchRange" style="margin:0;">声の高さ (ピッチ)</label>
+            <span class="range-value" id="pitchVal">1.0</span>
+          </div>
+          <input type="range" id="pitchRange" min="0.5" max="2.0" step="0.1" value="1.0" oninput="document.getElementById('pitchVal').innerText=this.value">
+        </div>
+
+        <div class="form-group">
+          <div class="range-header">
+            <label for="rateRange" style="margin:0;">話すスピード</label>
+            <span class="range-value" id="rateVal">1.0</span>
+          </div>
+          <input type="range" id="rateRange" min="0.5" max="2.0" step="0.1" value="1.0" oninput="document.getElementById('rateVal').innerText=this.value">
+        </div>
       </div>
+
+      <div class="form-group">
+        <label for="textInput">読み上げる文章</label>
+        <textarea id="textInput" placeholder="ここに声にしたい日本語の文章を入力してください..."></textarea>
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-primary" onclick="speakText()">▶ 再生する</button>
+        <button class="btn btn-secondary" onclick="stopSpeech()">⏹ 停止</button>
+      </div>
+    </main>
+
+    <!-- 広告枠 2 (下部) -->
+    <div class="ad-container">
+      【スポンサーリンク / 広告スペース】
     </div>
 
-    <label for="textInput"><strong>しゃべらせたい文章：</strong></label>
-    <textarea id="textInput" placeholder="ここに読み上げたい日本語の文章を入力してください..."></textarea>
-    
-    <button onclick="speakText()">音声を再生する</button>
-    <button class="stop" onclick="stopSpeech()">停止する</button>
+    <section class="info-section">
+      <h2>このツールについて</h2>
+      <p>ブラウザ標準の音声合成エンジン（Web Speech API）を利用した高機能なテキスト読み上げツールです。パラメータ（高さ・スピード）を微調整して好みの声にカスタマイズできます。</p>
+    </section>
   </div>
-
-  <!-- 下部広告枠 -->
-  <div class="ad-space">
-    【広告スペース (Google AdSense等をここに配置)】
-  </div>
-
-  <h2>このサイトについて</h2>
-  <p>ブラウザ標準の音声合成エンジンを使用し、ピッチやスピードを自由自在にカスタマイズしてテキストを読み上げることができる無料のWEBツールです。</p>
 
 <script>
   const synth = window.speechSynthesis;
@@ -69,7 +282,12 @@
     const voiceSelect = document.getElementById('voiceSelect');
     voiceSelect.innerHTML = '';
     
-    voices.forEach((voice, i) => {
+    if (voices.length === 0) {
+      // 日本語音声が見つからない場合のフォールバック（全体取得）
+      voices = synth.getVoices();
+    }
+
+    voices.forEach((voice) => {
       const option = document.createElement('option');
       option.textContent = `${voice.name} (${voice.lang})`;
       option.setAttribute('data-name', voice.name);
@@ -89,17 +307,20 @@
 
     const text = document.getElementById('textInput').value.trim();
     if (!text) {
-      alert('テキストを入力してください');
+      alert('読み上げるテキストを入力してください');
       return;
     }
 
     const utterThis = new SpeechSynthesisUtterance(text);
-    const selectedVoiceName = document.getElementById('voiceSelect').selectedOptions[0]?.getAttribute('data-name');
+    const selectedOption = document.getElementById('voiceSelect').selectedOptions[0];
+    const selectedVoiceName = selectedOption ? selectedOption.getAttribute('data-name') : null;
     
-    for(let i = 0; i < voices.length ; i++) {
-      if(voices[i].name === selectedVoiceName) {
-        utterThis.voice = voices[i];
-        break;
+    if (selectedVoiceName) {
+      for(let i = 0; i < voices.length ; i++) {
+        if(voices[i].name === selectedVoiceName) {
+          utterThis.voice = voices[i];
+          break;
+        }
       }
     }
 
