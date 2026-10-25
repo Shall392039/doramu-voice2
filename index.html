@@ -3,226 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>マイボイス風 音声読み上げスタジオ</title>
-  <style>
-    :root {
-      --primary-color: #4f46e5;
-      --primary-hover: #4338ca;
-      --bg-color: #f8fafc;
-      --card-bg: #ffffff;
-      --text-main: #0f172a;
-      --text-muted: #64748b;
-      --border-color: #e2e8f0;
-      --accent-stop: #ef4444;
-      --accent-stop-hover: #dc2626;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-main);
-      line-height: 1.6;
-      padding: 20px 15px;
-    }
-
-    .container {
-      max-width: 680px;
-      margin: 0 auto;
-    }
-
-    header {
-      text-align: center;
-      margin-bottom: 24px;
-    }
-
-    header h1 {
-      font-size: 1.8rem;
-      font-weight: 800;
-      color: var(--text-main);
-      margin-bottom: 8px;
-    }
-
-    header p {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-    }
-
-    /* 広告スペースのスタイリング */
-    .ad-container {
-      background-color: #f1f5f9;
-      border: 2px dashed #cbd5e1;
-      border-radius: 12px;
-      padding: 16px;
-      text-align: center;
-      color: #94a3b8;
-      font-size: 0.85rem;
-      font-weight: 600;
-      margin: 20px 0;
-      min-height: 90px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* メインカード */
-    .card {
-      background: var(--card-bg);
-      border-radius: 16px;
-      padding: 28px;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
-      border: 1px solid var(--border-color);
-    }
-
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    label {
-      display: block;
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: var(--text-main);
-      margin-bottom: 8px;
-    }
-
-    select, textarea {
-      width: 100%;
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 12px;
-      font-size: 1rem;
-      background-color: #fff;
-      color: var(--text-main);
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-
-    select:focus, textarea:focus {
-      outline: none;
-      border-color: var(--primary-color);
-      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
-    }
-
-    textarea {
-      height: 130px;
-      resize: vertical;
-    }
-
-    /* パラメータコントロール */
-    .controls-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 20px;
-    }
-
-    @media (max-width: 480px) {
-      .controls-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .range-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 6px;
-    }
-
-    .range-value {
-      background: #e0e7ff;
-      color: var(--primary-color);
-      padding: 2px 8px;
-      border-radius: 12px;
-      font-size: 0.8rem;
-      font-weight: 700;
-    }
-
-    input[type="range"] {
-      width: 100%;
-      accent-color: var(--primary-color);
-      cursor: pointer;
-    }
-
-    /* ボタンデザイン */
-    .button-group {
-      display: flex;
-      gap: 12px;
-      margin-top: 10px;
-    }
-
-    .btn {
-      flex: 1;
-      padding: 14px 20px;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .btn-primary {
-      background-color: var(--primary-color);
-      color: white;
-      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
-    }
-
-    .btn-primary:hover {
-      background-color: var(--primary-hover);
-      transform: translateY(-1px);
-    }
-
-    .btn-secondary {
-      background-color: #f1f5f9;
-      color: var(--accent-stop);
-      border: 1px solid var(--border-color);
-    }
-
-    .btn-secondary:hover {
-      background-color: #fee2e2;
-    }
-
-    /* フッター説明エリア */
-    .info-section {
-      margin-top: 32px;
-      padding: 20px;
-      background-color: rgba(255, 255, 255, 0.6);
-      border-radius: 12px;
-      border: 1px solid var(--border-color);
-    }
-
-    .info-section h2 {
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-      color: var(--text-main);
-    }
-
-    .info-section p {
-      font-size: 0.875rem;
-      color: var(--text-muted);
-    }
-  </style>
+  <title>音声読み上げスタジオ</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <div class="container">
     <header>
-      <h1>🎙️ 音声読み上げスタジオ</h1>
-      <p>テキストを入力し、声の高さやスピードを自由に調整できます</p>
+      <h1>VIVANT風 音声読み上げスタジオ</h1>
+      <p>テキストを入力して、声を自由にカスタマイズできます</p>
     </header>
 
-    <!-- 広告枠 1 (上部) -->
+    <!-- 上部広告枠 -->
     <div class="ad-container">
       【スポンサーリンク / 広告スペース】
     </div>
@@ -253,7 +45,7 @@
 
       <div class="form-group">
         <label for="textInput">読み上げる文章</label>
-        <textarea id="textInput" placeholder="ここに声にしたい日本語の文章を入力してください..."></textarea>
+        <textarea id="textInput" placeholder="ここに日本語の文章を入力してください..."></textarea>
       </div>
 
       <div class="button-group">
@@ -262,80 +54,17 @@
       </div>
     </main>
 
-    <!-- 広告枠 2 (下部) -->
+    <!-- 下部広告枠 -->
     <div class="ad-container">
       【スポンサーリンク / 広告スペース】
     </div>
 
     <section class="info-section">
       <h2>このツールについて</h2>
-      <p>ブラウザ標準の音声合成エンジン（Web Speech API）を利用した高機能なテキスト読み上げツールです。パラメータ（高さ・スピード）を微調整して好みの声にカスタマイズできます。</p>
+      <p>ブラウザ標準の音声合成エンジン（Web Speech API）を利用したテキスト読み上げツールです。</p>
     </section>
   </div>
 
-<script>
-  const synth = window.speechSynthesis;
-  let voices = [];
-
-  function populateVoiceList() {
-    voices = synth.getVoices().filter(voice => voice.lang.includes('ja') || voice.lang.includes('JA'));
-    const voiceSelect = document.getElementById('voiceSelect');
-    voiceSelect.innerHTML = '';
-    
-    if (voices.length === 0) {
-      // 日本語音声が見つからない場合のフォールバック（全体取得）
-      voices = synth.getVoices();
-    }
-
-    voices.forEach((voice) => {
-      const option = document.createElement('option');
-      option.textContent = `${voice.name} (${voice.lang})`;
-      option.setAttribute('data-name', voice.name);
-      voiceSelect.appendChild(option);
-    });
-  }
-
-  populateVoiceList();
-  if (synth.onvoiceschanged !== undefined) {
-    synth.onvoiceschanged = populateVoiceList;
-  }
-
-  function speakText() {
-    if (synth.speaking) {
-      synth.cancel();
-    }
-
-    const text = document.getElementById('textInput').value.trim();
-    if (!text) {
-      alert('読み上げるテキストを入力してください');
-      return;
-    }
-
-    const utterThis = new SpeechSynthesisUtterance(text);
-    const selectedOption = document.getElementById('voiceSelect').selectedOptions[0];
-    const selectedVoiceName = selectedOption ? selectedOption.getAttribute('data-name') : null;
-    
-    if (selectedVoiceName) {
-      for(let i = 0; i < voices.length ; i++) {
-        if(voices[i].name === selectedVoiceName) {
-          utterThis.voice = voices[i];
-          break;
-        }
-      }
-    }
-
-    utterThis.pitch = parseFloat(document.getElementById('pitchRange').value);
-    utterThis.rate = parseFloat(document.getElementById('rateRange').value);
-
-    synth.speak(utterThis);
-  }
-
-  function stopSpeech() {
-    if (synth.speaking) {
-      synth.cancel();
-    }
-  }
-</script>
-
+  <script src="script.js"></script>
 </body>
 </html>
