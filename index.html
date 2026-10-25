@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>マイボイス風 音声読み上げツール</title>
+  <style>
+    body { font-family: sans-serif; max-width: 800px; margin: 20px auto; padding: 0 15px; color: #333; line-height: 1.6; background: #f7f9fc; }
+    .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+    textarea { width: 100%; height: 120px; margin: 10px 0; padding: 12px; box-sizing: border-box; font-size: 16px; border: 1px solid #cbd5e1; border-radius: 6px; resize: vertical; }
+    .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 15px 0; }
+    .control-group label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 14px; }
+    .control-group select, .control-group input { width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; }
+    button { background: #2563eb; color: white; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: bold; width: 100%; transition: background 0.2s; }
+    button:hover { background: #1d4ed8; }
+    button.stop { background: #dc2626; margin-top: 10px; }
+    button.stop:hover { background: #b91c1c; }
+    .ad-space { background: #e2e8f0; border: 2px dashed #94a3b8; padding: 15px; text-align: center; margin: 20px 0; border-radius: 8px; color: #64748b; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+  <h1>マイボイス風 音声読み上げツール</h1>
+  <p>テキストを入力して、パラメータを調整しながら自分の声に似せて遊べるウェブサイトです！</p>
+
+  <!-- 上部広告枠 -->
+  <div class="ad-space">
+    【広告スペース (Google AdSense等をここに配置)】
+  </div>
+
+  <div class="card">
+    <div class="control-group">
+      <label for="voiceSelect">音声の種類:</label>
+      <select id="voiceSelect"></select>
+    </div>
+
+    <div class="controls">
+      <div class="control-group">
+        <label for="pitchRange">声の高さ (ピッチ): <span id="pitchVal">1.0</span></label>
+        <input type="range" id="pitchRange" min="0.5" max="2.0" step="0.1" value="1.0" oninput="document.getElementById('pitchVal').innerText=this.value">
+      </div>
+      <div class="control-group">
+        <label for="rateRange">話すスピード: <span id="rateVal">1.0</span></label>
+        <input type="range" id="rateRange" min="0.5" max="2.0" step="0.1" value="1.0" oninput="document.getElementById('rateVal').innerText=this.value">
+      </div>
+    </div>
+
+    <label for="textInput"><strong>しゃべらせたい文章：</strong></label>
+    <textarea id="textInput" placeholder="ここに読み上げたい日本語の文章を入力してください..."></textarea>
+    
+    <button onclick="speakText()">音声を再生する</button>
+    <button class="stop" onclick="stopSpeech()">停止する</button>
+  </div>
+
+  <!-- 下部広告枠 -->
+  <div class="ad-space">
+    【広告スペース (Google AdSense等をここに配置)】
+  </div>
+
+  <h2>このサイトについて</h2>
+  <p>ブラウザ標準の音声合成エンジンを使用し、ピッチやスピードを自由自在にカスタマイズしてテキストを読み上げることができる無料のWEBツールです。</p>
+
+<script>
+  const synth = window.speechSynthesis;
+  let voices = [];
+
+  function populateVoiceList() {
+    voices = synth.getVoices().filter(voice => voice.lang.includes('ja') || voice.lang.includes('JA'));
+    const voiceSelect = document.getElementById('voiceSelect');
+    voiceSelect.innerHTML = '';
+    
+    voices.forEach((voice, i) => {
+      const option = document.createElement('option');
+      option.textContent = `${voice.name} (${voice.lang})`;
+      option.setAttribute('data-name', voice.name);
+      voiceSelect.appendChild(option);
+    });
+  }
+
+  populateVoiceList();
+  if (synth.onvoiceschanged !== undefined) {
+    synth.onvoiceschanged = populateVoiceList;
+  }
+
+  function speakText() {
+    if (synth.speaking) {
+      synth.cancel();
+    }
+
+    const text = document.getElementById('textInput').value.trim();
+    if (!text) {
+      alert('テキストを入力してください');
+      return;
+    }
+
+    const utterThis = new SpeechSynthesisUtterance(text);
+    const selectedVoiceName = document.getElementById('voiceSelect').selectedOptions[0]?.getAttribute('data-name');
+    
+    for(let i = 0; i < voices.length ; i++) {
+      if(voices[i].name === selectedVoiceName) {
+        utterThis.voice = voices[i];
+        break;
+      }
+    }
+
+    utterThis.pitch = parseFloat(document.getElementById('pitchRange').value);
+    utterThis.rate = parseFloat(document.getElementById('rateRange').value);
+
+    synth.speak(utterThis);
+  }
+
+  function stopSpeech() {
+    if (synth.speaking) {
+      synth.cancel();
+    }
+  }
+</script>
+
+</body>
+</html>
