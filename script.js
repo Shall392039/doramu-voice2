@@ -25,9 +25,16 @@ function speakText() {
     utterThis.voice = targetVoice;
   }
 
-  // 声の高さとスピードを固定値で適用（変更不可）
+  // 声の高さは固定（1.2）
   utterThis.pitch = 1.2;
-  utterThis.rate = 1.15;
+
+  // スマホとPCで速度を個別に調整してPCのスピード感に合わせる
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  if (isMobile) {
+    utterThis.rate = 1.0; // スマホ側の速度（早すぎる場合は 0.9 などに下げられます）
+  } else {
+    utterThis.rate = 1.15; // PC側の速度
+  }
 
   window.currentUtterance = utterThis;
   synth.speak(utterThis);
