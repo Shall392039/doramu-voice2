@@ -1,3 +1,49 @@
+// ==========================================
+// 1. A8.net 広告リスト (10個分)
+// ※取得したコードをバッククォート(` `)の間に貼り付けてください
+// ==========================================
+const adList = [
+  // 1個目（教えていただいたゲオ宅配レンタルの広告）
+  `<a href="https://px.a8.net/svt/ejp?a8mat=4BEPPT+17GNXU+2D8M+NY1YA" rel="nofollow">映画、ドラマ、音楽などなど。お探しのタイトル、ここなら見つかるかも？「ゲオ宅配レンタル」</a><img border="0" width="1" height="1" src="https://www18.a8.net/0.gif?a8mat=4BEPPT+17GNXU+2D8M+NY1YA" alt="">`,
+
+  // 2個目
+  `<!-- ここに2個目の広告コードを貼り付け -->`,
+
+  // 3個目
+  `<!-- ここに3個目の広告コードを貼り付け -->`,
+
+  // 4個目
+  `<!-- ここに4個目の広告コードを貼り付け -->`,
+
+  // 5個目
+  `<!-- ここに5個目の広告コードを貼り付け -->`,
+
+];
+
+// 配列からランダムに1つ選ぶ関数
+function getRandomAd(ads) {
+  const index = Math.floor(Math.random() * ads.length);
+  return ads[index];
+}
+
+// ページ読み込み時に各枠へランダムな広告を挿入する
+window.addEventListener('DOMContentLoaded', () => {
+  if (adList.length === 0) return;
+
+  const top1 = document.getElementById('top-ad-1');
+  const top2 = document.getElementById('top-ad-2');
+  const bottom1 = document.getElementById('bottom-ad-1');
+  const bottom2 = document.getElementById('bottom-ad-2');
+
+  if (top1) top1.innerHTML = getRandomAd(adList);
+  if (top2) top2.innerHTML = getRandomAd(adList);
+  if (bottom1) bottom1.innerHTML = getRandomAd(adList);
+  if (bottom2) bottom2.innerHTML = getRandomAd(adList);
+});
+
+// ==========================================
+// 2. 音声読み上げ機能
+// ==========================================
 const synth = window.speechSynthesis;
 
 function speakText() {
@@ -25,10 +71,8 @@ function speakText() {
     utterThis.voice = targetVoice;
   }
 
-  // 声の高さは固定
   utterThis.pitch = 1.2;
 
-  // スマホとPCで速度を個別に調整
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
   if (isMobile) {
     utterThis.rate = 1.0;
@@ -46,7 +90,9 @@ function stopSpeech() {
   }
 }
 
-// ドラムロール音生成関数
+// ==========================================
+// 3. ドラムロール効果音生成
+// ==========================================
 function playDrumRoll() {
   const AudioContext = window.AudioContext || window.webkitAudioContext;
   if (!AudioContext) return;
@@ -111,7 +157,4 @@ function playDrumRoll() {
   }, duration * 1000);
 }
 
-if (synth.onvoiceschanged !== undefined) {
-  synth.onvoiceschanged = () => { synth.getVoices(); };
-}
-synth.getVoices();
+if (synth.on

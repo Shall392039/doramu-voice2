@@ -47,7 +47,16 @@ header p {
   font-size: 0.95rem;
 }
 
+/* 広告を横に並べるコンテナ */
 .ad-container {
+  display: flex;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+/* 個別の広告ボックス（横に2つ並ぶように調整） */
+.ad-box {
+  flex: 1;
   background-color: #15181b;
   border: 2px dashed var(--border-color);
   border-radius: 12px;
@@ -56,11 +65,18 @@ header p {
   color: var(--text-muted);
   font-size: 0.85rem;
   font-weight: 600;
-  margin: 20px 0;
   min-height: 90px;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+}
+
+/* スマホなどで画面が狭いときは縦に並び替える */
+@media (max-width: 480px) {
+  .ad-container {
+    flex-direction: column;
+  }
 }
 
 .card {
