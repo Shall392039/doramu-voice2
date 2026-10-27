@@ -1,40 +1,3 @@
-// ==========================================
-// 1. A8.net 広告リスト
-// ==========================================
-const adList = [
-  // 1個目（ゲオのレンタル）
-  `<a href="https://px.a8.net/svt/ejp?a8mat=4BEPPT+17GNXU+2D8M+NY1YA" rel="nofollow">映画、ドラマ、音楽などなど。お探しのタイトル、ここなら見つかるかも？「ゲオ宅配レンタル」</a><img border="0" width="1" height="1" src="https://www18.a8.net/0.gif?a8mat=4BEPPT+17GNXU+2D8M+NY1YA" alt="">`,
-
-  // 2個目（バナー広告 ※改行をなくして1行にしています）
-  `<a href="https://px.a8.net/svt/ejp?a8mat=4BEPPT+3K07UA+3EV2+ZRXQP" rel="nofollow">
-<img border="0" width="300" height="250" alt="" src="https://www21.a8.net/svt/bgt?aid=261026993215&wid=001&eno=01&mid=s00000015923006009000&mc=1"></a>
-<img border="0" width="1" height="1" src="https://www17.a8.net/0.gif?a8mat=4BEPPT+3K07UA+3EV2+ZRXQP" alt="">`
-];
-
-// 配列からランダムに1つ選ぶ関数
-function getRandomAd(ads) {
-  const index = Math.floor(Math.random() * ads.length);
-  return ads[index];
-}
-
-// ページ読み込み時に各枠へランダムな広告を挿入する
-window.addEventListener('DOMContentLoaded', () => {
-  if (adList.length === 0) return;
-
-  const top1 = document.getElementById('top-ad-1');
-  const top2 = document.getElementById('top-ad-2');
-  const bottom1 = document.getElementById('bottom-ad-1');
-  const bottom2 = document.getElementById('bottom-ad-2');
-
-  if (top1) top1.innerHTML = getRandomAd(adList);
-  if (top2) top2.innerHTML = getRandomAd(adList);
-  if (bottom1) bottom1.innerHTML = getRandomAd(adList);
-  if (bottom2) bottom2.innerHTML = getRandomAd(adList);
-});
-
-// ==========================================
-// 2. 音声読み上げ機能
-// ==========================================
 const synth = window.speechSynthesis;
 
 function speakText() {
@@ -62,8 +25,10 @@ function speakText() {
     utterThis.voice = targetVoice;
   }
 
+  // 声の高さは固定
   utterThis.pitch = 1.2;
 
+  // スマホとPCで速度を個別に調整
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
   if (isMobile) {
     utterThis.rate = 1.0;
@@ -81,9 +46,7 @@ function stopSpeech() {
   }
 }
 
-// ==========================================
-// 3. ドラムロール効果音生成
-// ==========================================
+// ドラムロール音生成関数
 function playDrumRoll() {
   const AudioContext = window.AudioContext || window.webkitAudioContext;
   if (!AudioContext) return;
