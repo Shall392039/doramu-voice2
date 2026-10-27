@@ -1,3 +1,52 @@
+:root {
+  --bg-color: #0f1113;
+  --card-bg: #1a1d20;
+  --text-main: #f3f4f6;
+  --text-muted: #9ca3af;
+  --primary-color: #c5221f;
+  --primary-hover: #a31b18;
+  --drum-color: #e67e22;
+  --drum-hover: #d35400;
+  --border-color: #2d3238;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  line-height: 1.6;
+  padding: 20px 15px;
+}
+
+.container {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+header h1 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--primary-color);
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+}
+
+header p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
 /* 広告を横並びにする親コンテナ */
 .ad-container {
   display: flex;
@@ -5,13 +54,13 @@
   margin: 20px 0;
 }
 
-/* 個別の広告ボックス（点線を消してスッキリさせました） */
+/* 個別の広告ボックス（点線を削除しました） */
 .ad-box {
   flex: 1;
   background-color: #15181b;
-  border: none; /* ← 点線をなくしました */
+  border: none; /* ← ここで点線を消しています */
   border-radius: 12px;
-  padding: 8px;
+  padding: 12px;
   text-align: center;
   color: var(--text-muted);
   font-size: 0.85rem;
@@ -23,10 +72,121 @@
   overflow: hidden;
 }
 
-/* 広告のサイズがバラバラでも枠内に綺麗に収まるようにする設定 */
+/* 広告の画像サイズが崩れないようにする調整 */
 .ad-box img {
   max-width: 100%;
   height: auto;
   display: block;
   margin: 0 auto;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--border-color);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 8px;
+}
+
+textarea {
+  width: 100%;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 1rem;
+  background-color: #121417;
+  color: var(--text-main);
+  height: 130px;
+  resize: vertical;
+  outline: none;
+}
+
+textarea:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(197, 34, 31, 0.25);
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  flex: 1;
+  min-width: 120px;
+  padding: 14px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+  box-shadow: 0 4px 12px rgba(197, 34, 31, 0.4);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+}
+
+.btn-drum {
+  background-color: var(--drum-color);
+  color: white;
+  box-shadow: 0 4px 12px rgba(230, 126, 34, 0.4);
+}
+
+.btn-drum:hover {
+  background-color: var(--drum-hover);
+}
+
+.btn-secondary {
+  background-color: #121417;
+  color: #ff6b6b;
+  border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+  background-color: #2a1515;
+}
+
+.info-section {
+  margin-top: 32px;
+  padding: 20px;
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+}
+
+.info-section h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text-main);
+}
+
+.info-section p {
+  font-size: 0.875rem;
+  color: var(--text-muted);
 }
